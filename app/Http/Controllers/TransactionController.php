@@ -1,9 +1,10 @@
 <?php
 
 namespace App\Http\Controllers;
-
 use App\Models\Transaction;
 use Illuminate\Http\Request;
+
+
 
 class TransactionController extends Controller
 {
@@ -26,7 +27,7 @@ class TransactionController extends Controller
      */
     public function create()
     {
-        //
+        // This method should return a view for creating a new transaction.
     }
 
     /**
@@ -37,9 +38,23 @@ class TransactionController extends Controller
      */
     public function store(Request $request)
     {
-        //
-    }
+        $request->validate([
+            'Sede' => 'required',
+            'Codigo_sede' => 'required',
+            'Ticket' => 'required',
+            'Venta' => 'required',
+            'Utilidad' => 'required',
+            'Porcentaje_c_v' => 'required'
+        ]);
+        try {
+            $requestData = $request->only(['Sede', 'Codigo_sede', 'Ticket', 'Venta', 'Utilidad', 'Porcentaje_c_v']);
+            $transaction = Transaction::create($requestData);
+            return response()->json(['message' => 'Transaction created successfully', 'transaction' => $transaction], 201);
+        } catch (\Exception $e) {
+            return response()->json(['message' => 'Error creating transaction', 'error' => $e->getMessage()], 500);
+        }
 
+    }
     /**
      * Display the specified resource.
      *
@@ -48,7 +63,13 @@ class TransactionController extends Controller
      */
     public function show($id)
     {
-        //
+        $transaction = Transaction::find($id);
+        
+        if (!$transaction) {
+            return response()->json(['message' => 'Transaction not found'], 404);
+        }
+
+        return response()->json($transaction);
     }
 
     /**
@@ -59,7 +80,7 @@ class TransactionController extends Controller
      */
     public function edit($id)
     {
-        //
+        // This method should return a view for editing a transaction.
     }
 
     /**
@@ -71,7 +92,21 @@ class TransactionController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $request->validate([
+            'Id' => 'required',
+            'Sede' => 'required',
+            'Codigo_sede' => 'required',
+            'Ticket' => 'required',
+            'Venta' => 'required',
+            'Utilidad' => 'required',
+            'Porcentaje_c_v' => 'required',
+        ]);
+        $transaction = Transaction::find($id);
+        if (!$transaction) {
+            return response()->json(['message' => 'Transaction not found'], 404);
+        }
+        $transaction->update($request->all());
+        return response()->json(['message' => 'Transaction updated successfully', 'transaction' => $transaction]);
     }
 
     /**
@@ -82,6 +117,14 @@ class TransactionController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $transaction = Transaction::find($id);
+        
+        if (!$transaction) {
+            return response()->json(['message' => 'Transaction not found'], 404);
+        }
+
+        $transaction->delete();
+
+        return response()->json(['message' => 'Transaction deleted successfully']);
     }
 }
