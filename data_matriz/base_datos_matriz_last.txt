@@ -1,0 +1,494 @@
+*------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------*
+*------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------*
+
++-------------------+       +-------------------+       +---------------------------+       +------------------+
+|    Clientes       |       |  Datos_Personales |       |       Detalle_Local       |       |   Registro_Contacto_cliente |
++-------------------+       +-------------------+       +---------------------------+       +------------------+
+| codigo (PK)       |       | dni (PK, FK)      |       | codigo (PK, FK)           |       | Id (PK)          |
+| dni (FK)          |◄──────┤ departamento      │       | grupo                     │───────►| Fecha            |
+| nombre_sede       │       | provincia         │       | administrador             |       | Dni (FK)         |
+| fecha implementación│       | distrito        │       | asociado                  │       | Medico_de_contacto |
+| estado            │       | direccion         │       | modelo                    │       | Medio_de_respuesta |
+| instalacion       │       | coordenadas       │       | fachada                   │       | Como_llego_a_la_marca |
+| motivo_bloqueo    │       | celular           │       | interior_del_local        │       | Producto_o_servicio |
+| estado de instalación│     | ruc              │       | garantia                  │       | Tipo_de_negocio |
+| solicitud_bloqueo│       | razon_social       │       | número_operación          │       | Estado           |
+|                   │       | correo            │       | monto_garantia            │       | Detalle_Nombre   |
++-------------------+       +-------------------+       +---------------------------+       | Agente_encargado_de_venta |
+                                                                                            | Respuesta_asesor |
+                                                                                            | Primer_contacto  |
+                                                                                            | Segundo_contacto |
+                                                                                            | Tercer_contacto  |
+                                                                                            | Contacto         |
+                                                                                            | Realizo_la_venta |
+                                                                                            | Futuro_socio     |
+                                                                                                  +------------------  
+                                                                                              
+                             +-----------------+       +-------------------+
+                             |   Plataforma    |       |  Transacciones    |
+                             +-----------------+       +-------------------+
+                             | id (PK)         |       | Id (PK)           |
+                             | plataforma      |───────┤ Fecha             |
+                             +-----------------+       | Codigo_sede (FK)  |◄─────+
+                                                       | Ticket            │      |
+                                                       | Venta             │      |
+                                                       | Utilidad          │      |
+                                                       +-------------------+      |
+                                                                                  |
+                                                                                  |
+                                                                                  |
+                                                                                  |
+                                                                            
+                                                                                  |
+                                                                                  |
+                                                                                  |
+                             +----------------------+                             |
+                             |  Sede_Transacciones  |                             |
+                             +----------------------+◄─────-----------------------|
+                             | Codigo_sede (PK)     |                             |
+                             | Sede                 |                             |
+                             +----------------------+                             |
+                                                                                  |
+                                                                                  |
+                                                                                  |
+                                                                                  |                                                                        
+                                                                                  |
+                                                                                  |
+                                                                                  |
+                                                                                  |
+                                                                                  |
+                             +-----------------------+                            |
+                             | Detalle_Transacciones|                             |
+                             +-----------------------+◄────-----------------------|
+                             | Id (PK, FK)          |                             
+                             | Porcentaje_c_v       |                             
+                             | Plataforma_id (FK)   |
+                             | Codigo_sede (FK)     |
+                             +-----------------------+
+                             
+           	   			  +---------------------+
+					|      Utilidad       |
+					+---------------------+
+					| COD (PK)            |
+					| SISTEMA             |
+					| JUEGO               |
+					| PERIODO             |
+					| ADMINI	STRADOR       |
+					| SHOP                |
+					| SEDES_O_SUCURSAL (FK)|
+					| ASOCIADO_RAZON_SOCIAL|
+					| RUC                 |
+					| UTILIDAD_BRUTA_100  |
+					| IMPUESTO_12         |
+					| UTILIDAD_IMPUESTOS  |
+					| PORCENTAJE_BASE     |
+					| UTILIDAD_NETA       |
+					| TOTAL_A_DEPOSITAR   |
+					| PAGO                |
+					| PORCENTAJE_COM_ADM  |
+					| COM_ADM_S           |
+					| PORCENTAJE_PARTICIPACION|
+					| DOCUMENTO_ATRIBUCION|
+					| Plataforma_id (FK)  |
+					| Transaccion_id (FK) |
+					+---------------------+
+
+*------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------*
+*------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------*
+
+
+
+
+Clientes y Datos_Personales:
+
+Relación: Uno a uno (1:1).
+Clave de relación: El campo dni en la tabla Clientes es clave primaria y clave foránea en la tabla Datos_Personales.
+Clientes y Detalle_Local:
+
+Relación: Uno a muchos (1
+).
+Clave de relación: El campo codigo en la tabla Detalle_Local es clave foránea en la tabla Clientes.
+Clientes y Registro_Contacto_cliente:
+
+Relación: Uno a muchos (1
+).
+Clave de relación: El campo dni en la tabla Registro_Contacto_cliente es clave foránea en la tabla Clientes.
+Clientes y Transacciones:
+
+Relación: Uno a muchos (1
+).
+Clave de relación: El campo Codigo_sede en la tabla Transacciones es clave foránea en la tabla Clientes.
+Clientes y Sede_Transacciones:
+
+Relación: Uno a muchos (1
+).
+Clave de relación: El campo Codigo_sede en la tabla Sede_Transacciones es clave primaria en la tabla Clientes.
+Clientes y Detalle_Transacciones:
+
+Relación: Uno a muchos (1
+).
+Clave de relación: El campo Codigo_sede en la tabla Detalle_Transacciones es clave foránea en la tabla Clientes.
+Plataforma y Transacciones:
+
+Relación: Uno a muchos (1
+).
+Clave de relación: El campo id en la tabla Transacciones es clave foránea en la tabla Plataforma.
+Sede_Transacciones y Detalle_Transacciones:
+
+Relación: Uno a muchos (1
+).
+Clave de relación: El campo Codigo_sede en la tabla Detalle_Transacciones es clave foránea en la tabla Sede_Transacciones.
+Utilidad y Transacciones:
+
+Relación: Uno a uno (1:1).
+Clave de relación: El campo Transaccion_id en la tabla Utilidad es clave foránea en la tabla Transacciones.
+
+
+
+*------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------*
+*------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------*
+
+
+--
+-- Base de datos: `matriz`
+--
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `clientes`
+--
+
+DROP TABLE IF EXISTS `clientes`;
+CREATE TABLE IF NOT EXISTS `clientes` (
+  `codigo` int NOT NULL,
+  `dni` int DEFAULT NULL,
+  `nombre_sede` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `fecha_implementacion` date DEFAULT NULL,
+  `estado` varchar(50) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `instalacion` varchar(50) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `motivo_bloqueo` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `estado_instalacion` varchar(50) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `solicitud_bloqueo` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  PRIMARY KEY (`codigo`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `clientes`
+--
+
+INSERT INTO `clientes` (`codigo`, `dni`, `nombre_sede`, `fecha_implementacion`, `estado`, `instalacion`, `motivo_bloqueo`, `estado_instalacion`, `solicitud_bloqueo`) VALUES
+(1, 12345678, 'Sede A', '2024-01-01', 'Activo', 'Instalado', NULL, 'Completada', NULL),
+(2, 23456789, 'Sede B', '2024-02-01', 'Activo', 'Instalado', NULL, 'Completada', NULL),
+(3, 34567890, 'Sede C', '2024-03-01', 'Activo', 'Instalado', NULL, 'Completada', NULL),
+(4, 45678901, 'Sede D', '2024-04-01', 'Activo', 'Instalado', NULL, 'Completada', NULL),
+(5, 56789012, 'Sede E', '2024-05-01', 'Activo', 'Instalado', NULL, 'Completada', NULL),
+(6, 67890123, 'Sede F', '2024-06-01', 'Activo', 'Instalado', NULL, 'Completada', NULL),
+(7, 78901234, 'Sede G', '2024-07-01', 'Activo', 'Instalado', NULL, 'Completada', NULL),
+(8, 89012345, 'Sede H', '2024-08-01', 'Activo', 'Instalado', NULL, 'Completada', NULL),
+(9, 90123456, 'Sede I', '2024-09-01', 'Activo', 'Instalado', NULL, 'Completada', NULL),
+(10, 12340000, 'Sede J', '2024-10-01', 'Activo', 'Instalado', NULL, 'Completada', NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `datos_personales`
+--
+
+DROP TABLE IF EXISTS `datos_personales`;
+CREATE TABLE IF NOT EXISTS `datos_personales` (
+  `dni` int NOT NULL,
+  `departamento` varchar(50) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `provincia` varchar(50) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `distrito` varchar(50) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `direccion` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `celular` varchar(20) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `ruc` varchar(20) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `razon_social` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `correo` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  PRIMARY KEY (`dni`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `datos_personales`
+--
+
+INSERT INTO `datos_personales` (`dni`, `departamento`, `provincia`, `distrito`, `direccion`, `celular`, `ruc`, `razon_social`, `correo`) VALUES
+(12345678, 'Lima', 'Lima', 'Miraflores', 'Av. Principal 123', '999888777', '12345678901', 'Empresa A', 'empresaA@example.com'),
+(23456789, 'Lima', 'Lima', 'San Isidro', 'Calle Secundaria 456', '999777888', '23456789012', 'Empresa B', 'empresaB@example.com'),
+(34567890, 'Lima', 'Lima', 'Surco', 'Av. Importante 789', '999666555', '34567890123', 'Empresa C', 'empresaC@example.com'),
+(45678901, 'Lima', 'Lima', 'San Borja', 'Calle Principal 321', '999555444', '45678901234', 'Empresa D', 'empresaD@example.com'),
+(56789012, 'Lima', 'Lima', 'La Molina', 'Av. Principal 654', '999444333', '56789012345', 'Empresa E', 'empresaE@example.com'),
+(67890123, 'Lima', 'Lima', 'Pueblo Libre', 'Av. Secundaria 987', '999333222', '67890123456', 'Empresa F', 'empresaF@example.com'),
+(78901234, 'Lima', 'Lima', 'Chorrillos', 'Calle Importante 456', '999222111', '78901234567', 'Empresa G', 'empresaG@example.com'),
+(89012345, 'Lima', 'Lima', 'Barranco', 'Av. Secundaria 741', '999111000', '89012345678', 'Empresa H', 'empresaH@example.com'),
+(90123456, 'Lima', 'Lima', 'Surquillo', 'Av. Principal 159', '999000999', '90123456789', 'Empresa I', 'empresaI@example.com'),
+(12340000, 'Lima', 'Lima', 'Jesus Maria', 'Calle Importante 852', '999999000', '12340000000', 'Empresa J', 'empresaJ@example.com');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `detalle_local`
+--
+
+DROP TABLE IF EXISTS `detalle_local`;
+CREATE TABLE IF NOT EXISTS `detalle_local` (
+  `codigo` int NOT NULL,
+  `grupo` varchar(50) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `administrador` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `asociado` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `modelo` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `fachada` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `interior_del_local` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `garantia` varchar(50) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `numero_operacion` varchar(50) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `monto_garantia` decimal(10,2) DEFAULT NULL,
+  `tipo_negocio` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `estado` varchar(50) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `detalle_nombre` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `agente_encargado_de_venta` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  PRIMARY KEY (`codigo`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `detalle_local`
+--
+
+INSERT INTO `detalle_local` (`codigo`, `grupo`, `administrador`, `asociado`, `modelo`, `fachada`, `interior_del_local`, `garantia`, `numero_operacion`, `monto_garantia`, `tipo_negocio`, `estado`, `detalle_nombre`, `agente_encargado_de_venta`) VALUES
+(1, 'Grupo A', 'Admin A', 'Asociado A', 'Modelo A', 'Fachada A', 'Interior A', 'Garantía A', '001', 1000.00, 'Negocio A', 'Activo', 'Detalle A', 'Agente A'),
+(2, 'Grupo B', 'Admin B', 'Asociado B', 'Modelo B', 'Fachada B', 'Interior B', 'Garantía B', '002', 1500.00, 'Negocio B', 'Activo', 'Detalle B', 'Agente B'),
+(3, 'Grupo C', 'Admin C', 'Asociado C', 'Modelo C', 'Fachada C', 'Interior C', 'Garantía C', '003', 2000.00, 'Negocio C', 'Activo', 'Detalle C', 'Agente C'),
+(4, 'Grupo D', 'Admin D', 'Asociado D', 'Modelo D', 'Fachada D', 'Interior D', 'Garantía D', '004', 2500.00, 'Negocio D', 'Activo', 'Detalle D', 'Agente D'),
+(5, 'Grupo E', 'Admin E', 'Asociado E', 'Modelo E', 'Fachada E', 'Interior E', 'Garantía E', '005', 3000.00, 'Negocio E', 'Activo', 'Detalle E', 'Agente E'),
+(6, 'Grupo F', 'Admin F', 'Asociado F', 'Modelo F', 'Fachada F', 'Interior F', 'Garantía F', '006', 3500.00, 'Negocio F', 'Activo', 'Detalle F', 'Agente F'),
+(7, 'Grupo G', 'Admin G', 'Asociado G', 'Modelo G', 'Fachada G', 'Interior G', 'Garantía G', '007', 4000.00, 'Negocio G', 'Activo', 'Detalle G', 'Agente G'),
+(8, 'Grupo H', 'Admin H', 'Asociado H', 'Modelo H', 'Fachada H', 'Interior H', 'Garantía H', '008', 4500.00, 'Negocio H', 'Activo', 'Detalle H', 'Agente H'),
+(9, 'Grupo I', 'Admin I', 'Asociado I', 'Modelo I', 'Fachada I', 'Interior I', 'Garantía I', '009', 5000.00, 'Negocio I', 'Activo', 'Detalle I', 'Agente I'),
+(10, 'Grupo J', 'Admin J', 'Asociado J', 'Modelo J', 'Fachada J', 'Interior J', 'Garantía J', '010', 5500.00, 'Negocio J', 'Activo', 'Detalle J', 'Agente J');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `detalle_transacciones`
+--
+
+DROP TABLE IF EXISTS `detalle_transacciones`;
+CREATE TABLE IF NOT EXISTS `detalle_transacciones` (
+  `Id` int NOT NULL,
+  `Porcentaje_c_v` decimal(5,2) DEFAULT NULL,
+  `Plataforma_id` int DEFAULT NULL,
+  `Codigo_sede` int DEFAULT NULL,
+  PRIMARY KEY (`Id`),
+  KEY `Plataforma_id` (`Plataforma_id`),
+  KEY `Codigo_sede` (`Codigo_sede`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `detalle_transacciones`
+--
+
+INSERT INTO `detalle_transacciones` (`Id`, `Porcentaje_c_v`, `Plataforma_id`, `Codigo_sede`) VALUES
+(1, 10.00, 1, 1),
+(2, 20.00, 2, 2),
+(3, 30.00, 3, 3),
+(4, 40.00, 4, 4),
+(5, 50.00, 5, 5),
+(6, 60.00, 6, 6),
+(7, 70.00, 7, 7),
+(8, 80.00, 8, 8),
+(9, 90.00, 9, 9),
+(10, 100.00, 10, 10);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `plataforma`
+--
+
+DROP TABLE IF EXISTS `plataforma`;
+CREATE TABLE IF NOT EXISTS `plataforma` (
+  `id` int NOT NULL,
+  `plataforma` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `plataforma`
+--
+
+INSERT INTO `plataforma` (`id`, `plataforma`) VALUES
+(1, 'Plataforma A'),
+(2, 'Plataforma B'),
+(3, 'Plataforma C'),
+(4, 'Plataforma D'),
+(5, 'Plataforma E'),
+(6, 'Plataforma F'),
+(7, 'Plataforma G'),
+(8, 'Plataforma H'),
+(9, 'Plataforma I'),
+(10, 'Plataforma J');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `registro_contacto_cliente`
+--
+
+DROP TABLE IF EXISTS `registro_contacto_cliente`;
+CREATE TABLE IF NOT EXISTS `registro_contacto_cliente` (
+  `Id` int NOT NULL,
+  `Fecha` date DEFAULT NULL,
+  `Dni` int DEFAULT NULL,
+  `Medico_de_contacto` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `Medio_de_respuesta` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `Como_llego_a_la_marca` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `Producto_o_servicio` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `Estado` varchar(50) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `Respuesta_asesor` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `Primer_contacto` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `Segundo_contacto` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `Tercer_contacto` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `Contacto` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `Realizo_la_venta` tinyint(1) DEFAULT NULL,
+  `Futuro_socio` tinyint(1) DEFAULT NULL,
+  PRIMARY KEY (`Id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `registro_contacto_cliente`
+--
+
+INSERT INTO `registro_contacto_cliente` (`Id`, `Fecha`, `Dni`, `Medico_de_contacto`, `Medio_de_respuesta`, `Como_llego_a_la_marca`, `Producto_o_servicio`, `Estado`, `Respuesta_asesor`, `Primer_contacto`, `Segundo_contacto`, `Tercer_contacto`, `Contacto`, `Realizo_la_venta`, `Futuro_socio`) VALUES
+(1, '2024-01-01', 12345678, 'Médico A', 'Email', 'Internet', 'Producto A', 'Activo', 'Respuesta A', 'Contacto 1', 'Contacto 2', 'Contacto 3', 'Contacto 4', 1, 0),
+(2, '2024-02-01', 23456789, 'Médico B', 'Teléfono', 'Recomendación', 'Producto B', 'Activo', 'Respuesta B', 'Contacto 1', 'Contacto 2', 'Contacto 3', 'Contacto 4', 0, 1),
+(3, '2024-03-01', 34567890, 'Médico C', 'Presencial', 'Redes Sociales', 'Producto C', 'Activo', 'Respuesta C', 'Contacto 1', 'Contacto 2', 'Contacto 3', 'Contacto 4', 1, 0),
+(4, '2024-04-01', 45678901, 'Médico D', 'Email', 'Publicidad', 'Producto D', 'Activo', 'Respuesta D', 'Contacto 1', 'Contacto 2', 'Contacto 3', 'Contacto 4', 0, 1),
+(5, '2024-05-01', 56789012, 'Médico E', 'Teléfono', 'Internet', 'Producto E', 'Activo', 'Respuesta E', 'Contacto 1', 'Contacto 2', 'Contacto 3', 'Contacto 4', 1, 0),
+(6, '2024-06-01', 67890123, 'Médico F', 'Presencial', 'Recomendación', 'Producto F', 'Activo', 'Respuesta F', 'Contacto 1', 'Contacto 2', 'Contacto 3', 'Contacto 4', 0, 1),
+(7, '2024-07-01', 78901234, 'Médico G', 'Email', 'Redes Sociales', 'Producto G', 'Activo', 'Respuesta G', 'Contacto 1', 'Contacto 2', 'Contacto 3', 'Contacto 4', 1, 0),
+(8, '2024-08-01', 89012345, 'Médico H', 'Teléfono', 'Publicidad', 'Producto H', 'Activo', 'Respuesta H', 'Contacto 1', 'Contacto 2', 'Contacto 3', 'Contacto 4', 0, 1),
+(9, '2024-09-01', 90123456, 'Médico I', 'Presencial', 'Internet', 'Producto I', 'Activo', 'Respuesta I', 'Contacto 1', 'Contacto 2', 'Contacto 3', 'Contacto 4', 1, 0),
+(10, '2024-10-01', 12340000, 'Médico J', 'Email', 'Recomendación', 'Producto J', 'Activo', 'Respuesta J', 'Contacto 1', 'Contacto 2', 'Contacto 3', 'Contacto 4', 0, 1);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `sede_transacciones`
+--
+
+DROP TABLE IF EXISTS `sede_transacciones`;
+CREATE TABLE IF NOT EXISTS `sede_transacciones` (
+  `Codigo_sede` int NOT NULL,
+  `Sede` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  PRIMARY KEY (`Codigo_sede`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `sede_transacciones`
+--
+
+INSERT INTO `sede_transacciones` (`Codigo_sede`, `Sede`) VALUES
+(1, 'Sede A'),
+(2, 'Sede B'),
+(3, 'Sede C'),
+(4, 'Sede D'),
+(5, 'Sede E'),
+(6, 'Sede F'),
+(7, 'Sede G'),
+(8, 'Sede H'),
+(9, 'Sede I'),
+(10, 'Sede J');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `transacciones`
+--
+
+DROP TABLE IF EXISTS `transacciones`;
+CREATE TABLE IF NOT EXISTS `transacciones` (
+  `Id` int NOT NULL,
+  `Fecha` date DEFAULT NULL,
+  `Codigo_sede` int DEFAULT NULL,
+  `Ticket` int DEFAULT NULL,
+  `Venta` decimal(10,2) DEFAULT NULL,
+  `Utilidad` decimal(10,2) DEFAULT NULL,
+  PRIMARY KEY (`Id`),
+  KEY `Codigo_sede` (`Codigo_sede`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `transacciones`
+--
+
+INSERT INTO `transacciones` (`Id`, `Fecha`, `Codigo_sede`, `Ticket`, `Venta`, `Utilidad`) VALUES
+(1, '2024-01-01', 1, 123456, 100.00, 20.00),
+(2, '2024-02-01', 2, 234567, 200.00, 40.00),
+(3, '2024-03-01', 3, 345678, 300.00, 60.00),
+(4, '2024-04-01', 4, 456789, 400.00, 80.00),
+(5, '2024-05-01', 5, 567890, 500.00, 100.00),
+(6, '2024-06-01', 6, 678901, 600.00, 120.00),
+(7, '2024-07-01', 7, 789012, 700.00, 140.00),
+(8, '2024-08-01', 8, 890123, 800.00, 160.00),
+(9, '2024-09-01', 9, 901234, 900.00, 180.00),
+(10, '2024-10-01', 10, 123400, 1000.00, 200.00);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `utilidad`
+--
+
+DROP TABLE IF EXISTS `utilidad`;
+CREATE TABLE IF NOT EXISTS `utilidad` (
+  `COD` int NOT NULL,
+  `SISTEMA` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `JUEGO` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `PERIODO` date DEFAULT NULL,
+  `ADMINISTRADOR` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `SHOP` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `SEDES_O_SUCURSAL` int DEFAULT NULL,
+  `ASOCIADO_RAZON_SOCIAL` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `RUC` varchar(20) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `UTILIDAD_BRUTA_100` decimal(10,2) DEFAULT NULL,
+  `IMPUESTO_12` decimal(10,2) DEFAULT NULL,
+  `UTILIDAD_IMPUESTOS` decimal(10,2) DEFAULT NULL,
+  `PORCENTAJE_BASE` decimal(5,2) DEFAULT NULL,
+  `UTILIDAD_NETA` decimal(10,2) DEFAULT NULL,
+  `TOTAL_A_DEPOSITAR` decimal(10,2) DEFAULT NULL,
+  `PAGO` decimal(10,2) DEFAULT NULL,
+  `PORCENTAJE_COM_ADM` decimal(5,2) DEFAULT NULL,
+  `COM_ADM_S` decimal(10,2) DEFAULT NULL,
+  `PORCENTAJE_PARTICIPACION` decimal(5,2) DEFAULT NULL,
+  `DOCUMENTO_ATRIBUCION` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `Plataforma_id` int DEFAULT NULL,
+  `Transaccion_id` int DEFAULT NULL,
+  PRIMARY KEY (`COD`),
+  KEY `SEDES_O_SUCURSAL` (`SEDES_O_SUCURSAL`),
+  KEY `Plataforma_id` (`Plataforma_id`),
+  KEY `Transaccion_id` (`Transaccion_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `utilidad`
+--
+
+INSERT INTO `utilidad` (`COD`, `SISTEMA`, `JUEGO`, `PERIODO`, `ADMINISTRADOR`, `SHOP`, `SEDES_O_SUCURSAL`, `ASOCIADO_RAZON_SOCIAL`, `RUC`, `UTILIDAD_BRUTA_100`, `IMPUESTO_12`, `UTILIDAD_IMPUESTOS`, `PORCENTAJE_BASE`, `UTILIDAD_NETA`, `TOTAL_A_DEPOSITAR`, `PAGO`, `PORCENTAJE_COM_ADM`, `COM_ADM_S`, `PORCENTAJE_PARTICIPACION`, `DOCUMENTO_ATRIBUCION`, `Plataforma_id`, `Transaccion_id`) VALUES
+(1, 'Sistema A', 'Juego A', '2024-01-01', 'Admin A', 'Shop A', 1, 'Asociado A', '12345678901', 1000.00, 120.00, 880.00, 10.00, 800.00, 800.00, 100.00, 5.00, 40.00, 50.00, 'Doc A', 1, 1),
+(2, 'Sistema B', 'Juego B', '2024-02-01', 'Admin B', 'Shop B', 2, 'Asociado B', '23456789012', 1500.00, 180.00, 1320.00, 20.00, 1200.00, 1200.00, 150.00, 6.00, 60.00, 70.00, 'Doc B', 2, 2),
+(3, 'Sistema C', 'Juego C', '2024-03-01', 'Admin C', 'Shop C', 3, 'Asociado C', '34567890123', 2000.00, 240.00, 1760.00, 30.00, 1600.00, 1600.00, 200.00, 7.00, 80.00, 90.00, 'Doc C', 3, 3),
+(4, 'Sistema D', 'Juego D', '2024-04-01', 'Admin D', 'Shop D', 4, 'Asociado D', '45678901234', 2500.00, 300.00, 2200.00, 40.00, 2000.00, 2000.00, 250.00, 8.00, 100.00, 110.00, 'Doc D', 4, 4),
+(5, 'Sistema E', 'Juego E', '2024-05-01', 'Admin E', 'Shop E', 5, 'Asociado E', '56789012345', 3000.00, 360.00, 2640.00, 50.00, 2400.00, 2400.00, 300.00, 9.00, 120.00, 130.00, 'Doc E', 5, 5),
+(6, 'Sistema F', 'Juego F', '2024-06-01', 'Admin F', 'Shop F', 6, 'Asociado F', '67890123456', 3500.00, 420.00, 3080.00, 60.00, 2800.00, 2800.00, 350.00, 10.00, 140.00, 150.00, 'Doc F', 6, 6),
+(7, 'Sistema G', 'Juego G', '2024-07-01', 'Admin G', 'Shop G', 7, 'Asociado G', '78901234567', 4000.00, 480.00, 3520.00, 70.00, 3200.00, 3200.00, 400.00, 11.00, 160.00, 170.00, 'Doc G', 7, 7),
+(8, 'Sistema H', 'Juego H', '2024-08-01', 'Admin H', 'Shop H', 8, 'Asociado H', '89012345678', 4500.00, 540.00, 3960.00, 80.00, 3600.00, 3600.00, 450.00, 12.00, 180.00, 190.00, 'Doc H', 8, 8),
+(9, 'Sistema I', 'Juego I', '2024-09-01', 'Admin I', 'Shop I', 9, 'Asociado I', '90123456789', 5000.00, 600.00, 4400.00, 90.00, 4000.00, 4000.00, 500.00, 13.00, 200.00, 210.00, 'Doc I', 9, 9),
+(10, 'Sistema J', 'Juego J', '2024-10-01', 'Admin J', 'Shop J', 10, 'Asociado J', '12340000000', 5500.00, 660.00, 4840.00, 100.00, 4400.00, 4400.00, 550.00, 14.00, 220.00, 230.00, 'Doc J', 10, 10);
+COMMIT;
+
+
+*------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------*
+*------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------*
+
+
+
